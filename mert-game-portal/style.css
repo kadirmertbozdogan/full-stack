@@ -89,3 +89,32 @@ footer{
     text-align: center;
     border-top: 1px solid #334155;
 }
+
+.game-grid {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.game-grid article {
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 20px;
+    }
+
+    main {
+        padding: 20px;
+    }
+
+    nav {
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .game-grid article {
+        max-width: none;
+    }
+}
