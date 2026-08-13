@@ -14,6 +14,48 @@
             <a href="#games">Games</a>
             <a href="#categories">Categories</a>
         </nav>
+        <form class="search-form" action="#" method="get">
+            <label for="game-search">Game Search</label>
+
+            <p id="search-help" class="form-help">
+                Enter at least 2 characters.
+            </p>
+
+            <div class="search-controls">
+                <input
+                    type="search"
+                    id="game-search"
+                    name="query"
+                    placeholder="Search by game"
+                    required
+                    minlength="2"
+                    aria-describedby="search-help"
+                >
+                <button type="submit">Search</button>
+                <button type="reset" class="reset-button">Clear</button>
+            </div>
+
+            <div class="search-options">
+                <label for="category-filter">Category</label>
+
+                <select id="category-filter" name="category">
+                    <option value="">All Categories</option>
+                    <option value="action">Action</option>
+                    <option value="racing">Racing</option>
+                    <option value="puzzle">Puzzle</option>
+                </select>
+            </div>
+
+            <div class="checkbox-field">
+                <input
+                    type="checkbox"
+                    id="free-to-play"
+                    name="free"
+                    value="yes"
+                >
+                <label for="free-to-play">Free to Play</label>
+            </div>
+        </form>
         </header>
             <main>
                 <section id="games">

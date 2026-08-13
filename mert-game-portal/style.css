@@ -167,6 +167,25 @@ article.featured a {
     .game-grid {
         grid-template-columns: 1fr;
     }
+
+    .search-controls{
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .search-controls button{
+        width: 100%;
+    }
+
+    .search-options{
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .checkbox-field{
+        align-self: start;
+    }
 }
 
 .game-grid article a {
@@ -217,4 +236,121 @@ section > p {
     color: #94a3b8;
     margin-bottom: 20px;
     line-height: 1.6;
+}
+
+.search-form {
+    max-width: 640px;
+    margin-top: 24px;
+}
+
+.search-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #cbd5e1;
+    font-weight: bold;
+}
+
+.search-controls {
+    display: flex;
+    gap: 12px;
+}
+
+.search-controls input {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid #475569;
+    border-radius: 8px;
+    background-color: #0f172a;
+    color: #f8fafc;
+    font: inherit;
+}
+
+.search-controls button {
+    padding: 12px 20px;
+    border: 0;
+    border-radius: 8px;
+    background-color: #0ea5e9;
+    color: #ffffff;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.form-help {
+    margin: 0 0 8px;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.search-controls input::placeholder {
+    color: #64748b;
+}
+
+.search-controls input:focus {
+    outline: none;
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+.search-controls button:hover {
+    background-color: #0284c7;
+}
+
+.search-controls button:focus-visible {
+    outline: 3px solid #facc15;
+    outline-offset: 4px;
+}
+
+.search-options {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.search-options label {
+    margin: 0;
+}
+
+.search-options select {
+    padding: 10px 36px 10px 12px;
+    border: 1px solid #475569;
+    border-radius: 8px;
+    background-color: #0f172a;
+    color: #f8fafc;
+    font: inherit;
+    cursor: pointer;
+}
+
+.search-options select:focus {
+    outline: none;
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+.checkbox-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.checkbox-field input {
+    width: 18px;
+    height: 18px;
+    accent-color: #0ea5e9;
+    cursor: pointer;
+}
+
+.checkbox-field label {
+    margin: 0;
+    cursor: pointer;
+}
+
+.search-controls .reset-button {
+    background-color: #475569;
+}
+
+.search-controls .reset-button:hover {
+    background-color: #64748b;
 }
