@@ -354,3 +354,26 @@ section > p {
 .search-controls .reset-button:hover {
     background-color: #64748b;
 }
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));;
+    gap: 16px;
+}
+
+.stats-card {
+    max-width: none;
+    padding: 24px;
+    text-align: center;
+}
+
+.stats-card h3 {
+    margin: 0 0 8px;
+    font-size: 32px;
+    color: #38bdf8;
+}
+
+.stats-card p {
+    margin: 0;
+    color: #cbd5e1;
+}
