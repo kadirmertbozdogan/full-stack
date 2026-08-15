@@ -1,187 +1,180 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<link rel="stylesheet" href="style.css">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Mert Game Portal</title>
-    </head>
-    <body>
-        <header id="home">
-        <h1>Mert Game Portal</h1>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#games">Games</a>
-            <a href="#categories">Categories</a>
-        </nav>
-        <form class="search-form" action="#" method="get">
-            <label for="game-search">Game Search</label>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mert Game Portal</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header id="home">
+      <h1>Mert Game Portal</h1>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#games">Games</a>
+        <a href="#categories">Categories</a>
+      </nav>
+      <form class="search-form" action="#" method="get">
+        <label for="game-search">Game Search</label>
 
-            <p id="search-help" class="form-help">
-                Enter at least 2 characters.
-            </p>
+        <p id="search-help" class="form-help">Enter at least 2 characters.</p>
 
-            <div class="search-controls">
-                <input
-                    type="search"
-                    id="game-search"
-                    name="query"
-                    placeholder="Search by game"
-                    required
-                    minlength="2"
-                    aria-describedby="search-help"
-                >
-                <button type="submit">Search</button>
-                <button type="reset" class="reset-button">Clear</button>
-            </div>
+        <div class="search-controls">
+          <input
+            type="search"
+            id="game-search"
+            name="query"
+            placeholder="Search by game"
+            required
+            minlength="2"
+            aria-describedby="search-help"
+          />
+          <button type="submit">Search</button>
+          <button type="reset" class="reset-button">Clear</button>
+        </div>
 
-            <div class="search-options">
-                <label for="category-filter">Category</label>
+        <div class="search-options">
+          <label for="category-filter">Category</label>
 
-                <select id="category-filter" name="category">
-                    <option value="">All Categories</option>
-                    <option value="action">Action</option>
-                    <option value="racing">Racing</option>
-                    <option value="puzzle">Puzzle</option>
-                </select>
-            </div>
+          <select id="category-filter" name="category">
+            <option value="">All Categories</option>
+            <option value="action">Action</option>
+            <option value="racing">Racing</option>
+            <option value="puzzle">Puzzle</option>
+          </select>
+        </div>
 
-            <div class="checkbox-field">
-                <input
-                    type="checkbox"
-                    id="free-to-play"
-                    name="free"
-                    value="yes"
-                >
-                <label for="free-to-play">Free to Play</label>
-            </div>
-        </form>
-        </header>
-            <main>
-                <section class="stats-section" aria-labelledby="stats-title">
-                    <h2 id="stats-title">Portal Overview</h2>
-                    <p>A quick look at our growing game collection.</p>
-                    
-                    <div class="stats-grid">
-                        <article class="stats-card">
-                            <h3>9</h3>
-                            <p>Games</p>
-                        </article>
-                        <article class="stats-card">
-                            <h3>3</h3>
-                            <p>Categories</p>
-                        </article>
-                        <article class="stats-card">
-                            <h3>100%</h3>
-                            <p>Free to Play</p>
-                        </article>
-                    </div>
-                </section>
-                <section id="games">
-                    <h2>Popular Games</h2>
-                    <p>Discover the most popular games</p>
-                    <div class="game-grid">
-                        <article class="featured">
-                            <img
-                            src="https://placehold.co/600x600?text=Space+Adventure"
-                            alt="Space Adventure game cover"
-                            >
-                            <h3>Space Adventure</h3>
-                            <p>Explore distant planets and complete exciting missions.</p>
-                            <a href="#">Play Now</a>
-                        </article>
-                        <article>
-                            <img
-                            src="https://placehold.co/300x180?text=Puzzle+Master"
-                            alt="Puzzle Master game cover"
-                            >
-                            <h3>Puzzle Master</h3>
-                            <p>Solve challenging puzzles and sharpen your mind.</p>
-                            <a href="#">Play Now</a>
-                        </article>
-                        <article>
-                            <img
-                            src="https://placehold.co/300x180?text=Jungle+Escape"
-                            alt="Jungle Escape game cover"
-                            >
-                            <h3>Jungle Escape</h3>
-                            <p>Survive the jungle and find your way home.</p>
-                            <a href="#">Play Now</a>
-                        </article>
-                        <article>
-                            <img
-                            src="https://placehold.co/300x180?text=Cyber+Runner"
-                            alt="Cyber Runner game cover"
-                            >
-                            <h3>Cyber Runner</h3>
-                            <p>Run through a futuristic city and avoid obstacles.</p>
-                            <a href="#">Play Now</a>
-                        </article>
-                        <article>
-                            <img
-                            src="https://placehold.co/300x180?text=Ocean+Quest"
-                            alt="Ocean Quest game cover"
-                            >
-                            <h3>Ocean Quest</h3>
-                            <p>Explore the ocean and discover hidden treasures.</p>
-                            <a href="#">Play Now</a>
-                        </article>
-                        <article>
-                            <img
-                            src="https://placehold.co/300x180?text=Shadow+Strike"
-                            alt="Shadow Strike game cover"
-                            >
-                            <h3>Shadow Strike</h3>
-                            <p>Complete secret missions without being detected.</p>
-                            <a href="#">Play Now</a>
-                        </article>
-                    </div>
-                </section>
-                <section>
-                    <h2>New Games</h2>
-                    <p>Check out the newest games</p>
-                    <div class="game-grid">
-                    <article>
-                        <img
-                        src="https://placehold.co/300x180?text=Speed+Racer"
-                        alt="Speed Racer game cover"
-                        >
-                        <h3>Speed Racer</h3>
-                        <p>Race against time and beat your rivals.</p>
-                        <a href="#">Play Now</a>
-                    </article>
-                    <article>
-                        <img
-                        src="https://placehold.co/300x180?text=Galaxy+Defender"
-                        alt="Galaxy Defender game cover"
-                        >
-                        <h3>Galaxy Defender</h3>
-                        <p>Protect the galaxy from waves of alien invaders.</p>
-                        <a href="#">Play Now</a>
-                    </article>        
-                    <article>
-                        <img
-                        src="https://placehold.co/300x180?text=Retro+Racer"
-                        alt="Retro Racer game cover"
-                        >
-                        <h3>Retro Racer</h3>
-                        <p>Race through colorful tracks in classic arcade style.</p>
-                        <a href="#">Play Now</a>
-                    </article>
-                    </div>                           
-                </section>
-                <section id="categories">
-                        <h2>Categories</h2>
-                        <ul class="category-list">
-                            <li>Action</li>
-                            <li>Racing</li>
-                            <li>Puzzle</li>
-                        </ul>
-                    </section>
-            </main>
+        <div class="checkbox-field">
+          <input type="checkbox" id="free-to-play" name="free" value="yes" />
+          <label for="free-to-play">Free to Play</label>
+        </div>
+      </form>
+    </header>
+    <main>
+      <section class="stats-section" aria-labelledby="stats-title">
+        <h2 id="stats-title">Portal Overview</h2>
+        <p>A quick look at our growing game collection.</p>
 
-            <footer>
-                <p>© 2026 Mert Game Portal</p>
-            </footer>
-    </body>
+        <div class="stats-grid">
+          <article class="stats-card">
+            <h3>9</h3>
+            <p>Games</p>
+          </article>
+          <article class="stats-card">
+            <h3>3</h3>
+            <p>Categories</p>
+          </article>
+          <article class="stats-card">
+            <h3>100%</h3>
+            <p>Free to Play</p>
+          </article>
+        </div>
+      </section>
+      <section id="games">
+        <h2>Popular Games</h2>
+        <p>Discover the most popular games</p>
+        <div class="game-grid">
+          <article class="featured">
+            <img
+              src="https://placehold.co/600x600?text=Space+Adventure"
+              alt="Space Adventure game cover"
+            />
+            <h3>Space Adventure</h3>
+            <p>Explore distant planets and complete exciting missions.</p>
+            <a href="#">Play Now</a>
+          </article>
+          <article>
+            <img
+              src="https://placehold.co/300x180?text=Puzzle+Master"
+              alt="Puzzle Master game cover"
+            />
+            <h3>Puzzle Master</h3>
+            <p>Solve challenging puzzles and sharpen your mind.</p>
+            <a href="#">Play Now</a>
+          </article>
+          <article>
+            <img
+              src="https://placehold.co/300x180?text=Jungle+Escape"
+              alt="Jungle Escape game cover"
+            />
+            <h3>Jungle Escape</h3>
+            <p>Survive the jungle and find your way home.</p>
+            <a href="#">Play Now</a>
+          </article>
+          <article>
+            <img
+              src="https://placehold.co/300x180?text=Cyber+Runner"
+              alt="Cyber Runner game cover"
+            />
+            <h3>Cyber Runner</h3>
+            <p>Run through a futuristic city and avoid obstacles.</p>
+            <a href="#">Play Now</a>
+          </article>
+          <article>
+            <img
+              src="https://placehold.co/300x180?text=Ocean+Quest"
+              alt="Ocean Quest game cover"
+            />
+            <h3>Ocean Quest</h3>
+            <p>Explore the ocean and discover hidden treasures.</p>
+            <a href="#">Play Now</a>
+          </article>
+          <article>
+            <img
+              src="https://placehold.co/300x180?text=Shadow+Strike"
+              alt="Shadow Strike game cover"
+            />
+            <h3>Shadow Strike</h3>
+            <p>Complete secret missions without being detected.</p>
+            <a href="#">Play Now</a>
+          </article>
+        </div>
+      </section>
+      <section>
+        <h2>New Games</h2>
+        <p>Check out the newest games</p>
+        <div class="game-grid">
+          <article>
+            <img
+              src="https://placehold.co/300x180?text=Speed+Racer"
+              alt="Speed Racer game cover"
+            />
+            <h3>Speed Racer</h3>
+            <p>Race against time and beat your rivals.</p>
+            <a href="#">Play Now</a>
+          </article>
+          <article>
+            <img
+              src="https://placehold.co/300x180?text=Galaxy+Defender"
+              alt="Galaxy Defender game cover"
+            />
+            <h3>Galaxy Defender</h3>
+            <p>Protect the galaxy from waves of alien invaders.</p>
+            <a href="#">Play Now</a>
+          </article>
+          <article>
+            <img
+              src="https://placehold.co/300x180?text=Retro+Racer"
+              alt="Retro Racer game cover"
+            />
+            <h3>Retro Racer</h3>
+            <p>Race through colorful tracks in classic arcade style.</p>
+            <a href="#">Play Now</a>
+          </article>
+        </div>
+      </section>
+      <section id="categories">
+        <h2>Categories</h2>
+        <ul class="category-list">
+          <li>Action</li>
+          <li>Racing</li>
+          <li>Puzzle</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2026 Mert Game Portal</p>
+    </footer>
+  </body>
 </html>
