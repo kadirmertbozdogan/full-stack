@@ -244,6 +244,16 @@ section > p {
   font-size: 14px;
 }
 
+.search-result {
+  margin: 16px 0 0;
+  color: var(--color-primary-soft);
+  font-weight: bold;
+}
+
+.search-result:empty{
+  display: none;
+}
+
 .search-controls input::placeholder {
   color: var(--color-placeholder);
 }
