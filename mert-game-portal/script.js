@@ -7,6 +7,7 @@ const gameCards = document.querySelectorAll(".game-grid > article");
 const totalGames = document.querySelector("#total-games");
 const totalCategories = document.querySelector("#total-categories");
 const freePercentage = document.querySelector("#free-percentage");
+const categoryButtons = document.querySelectorAll(".category-button");
 
 function updateStatistics() {
 
@@ -38,6 +39,16 @@ freePercentage.textContent = `${freeGamePercentage}%`;
 }
 
 updateStatistics();
+
+function updateActiveCategoryButton(selectedCategory) {
+  categoryButtons.forEach(function (categoryButton) {
+    const isActive =
+      categoryButton.dataset.category === selectedCategory;
+
+    categoryButton.classList.toggle("is-active", isActive);
+    categoryButton.setAttribute("aria-pressed", isActive);
+  });
+}
 
 function filterGames() {
 
@@ -105,12 +116,29 @@ searchForm.addEventListener("submit", function(event){
   filterGames();
 });
 
-categoryFilter.addEventListener("change", filterGames);
+categoryFilter.addEventListener("change", function () {
+  updateActiveCategoryButton(categoryFilter.value);
+  filterGames();
+});
+
 freeToPlayCheckbox.addEventListener("change", filterGames);
 searchInput.addEventListener("input", filterGames);
 
+categoryButtons.forEach(function (categoryButton) {
+  categoryButton.addEventListener("click", function () {
+    const selectedButtonCategory = categoryButton.dataset.category;
+
+    categoryFilter.value = selectedButtonCategory;
+    updateActiveCategoryButton(selectedButtonCategory);
+    filterGames();
+  });
+});
+
+updateActiveCategoryButton(categoryFilter.value);
+
 searchForm.addEventListener("reset", function () {
   searchResult.textContent = "";
+  updateActiveCategoryButton("");
 
   gameCards.forEach(function(gameCard){
     gameCard.hidden = false;

@@ -184,17 +184,34 @@ footer {
   padding: 0;
 }
 
-.category-list li {
+.category-button {
   padding: 10px 16px;
-  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 999px;
+  background-color: var(--color-card);
   color: var(--color-text-muted);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
-.category-list li:hover {
+.category-button:hover {
   border-color: var(--color-primary-light);
   color: var(--color-text);
+}
+
+.category-button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.category-button.is-active {
+  border-color: var(--color-primary-light);
+  background-color: var(--color-primary);
+  color: #ffffff;
 }
 
 section > p {

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mert Game Portal</title>
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -167,9 +168,45 @@
       <section id="categories">
         <h2>Categories</h2>
         <ul class="category-list">
-          <li>Action</li>
-          <li>Racing</li>
-          <li>Puzzle</li>
+          <li>
+            <button
+              type="button"
+              class="category-button"
+              data-category=""
+            >
+              All
+            </button>
+          </li>
+
+          <li>
+            <button
+              type="button"
+              class="category-button"
+              data-category="action"
+            >
+              Action
+            </button>
+          </li>
+
+          <li>
+            <button
+              type="button"
+              class="category-button"
+              data-category="racing"
+            >
+              Racing
+            </button>
+          </li>
+
+          <li>
+            <button
+              type="button"
+              class="category-button"
+              data-category="puzzle"
+            >
+              Puzzle
+            </button>
+          </li>
         </ul>
       </section>
     </main>
