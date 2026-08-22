@@ -8,6 +8,16 @@ const totalGames = document.querySelector("#total-games");
 const totalCategories = document.querySelector("#total-categories");
 const freePercentage = document.querySelector("#free-percentage");
 const categoryButtons = document.querySelectorAll(".category-button");
+const sortGamesSelect = document.querySelector("#sort-games");
+const gameGrids = document.querySelectorAll(".game-grid");
+
+gameGrids.forEach(function (gameGrid) {
+  const cardsInGrid = gameGrid.querySelectorAll("article");
+
+  cardsInGrid.forEach(function (gameCard, index) {
+    gameCard.dataset.originalOrder = index;
+  });
+});
 
 function updateStatistics() {
 
@@ -47,6 +57,55 @@ function updateActiveCategoryButton(selectedCategory) {
 
     categoryButton.classList.toggle("is-active", isActive);
     categoryButton.setAttribute("aria-pressed", isActive);
+  });
+}
+
+function sortGameCards(sortOrder) {
+  gameGrids.forEach(function (gameGrid) {
+    const cardsInGrid = Array.from(
+      gameGrid.querySelectorAll("article")
+    );
+
+    cardsInGrid.sort(function (firstCard, secondCard) {
+      if (sortOrder === "default") {
+        return (
+          Number(firstCard.dataset.originalOrder) -
+          Number(secondCard.dataset.originalOrder)
+        );
+      }
+
+      const firstIsFeatured =
+        firstCard.classList.contains("featured");
+
+      const secondIsFeatured =
+        secondCard.classList.contains("featured");
+
+      if (firstIsFeatured) {
+        return -1;
+      }
+
+      if (secondIsFeatured) {
+        return 1;
+      }
+
+      const firstTitle = firstCard
+        .querySelector("h3")
+        .textContent;
+
+      const secondTitle = secondCard
+        .querySelector("h3")
+        .textContent;
+
+      if (sortOrder === "a-z") {
+        return firstTitle.localeCompare(secondTitle);
+      }
+
+      return secondTitle.localeCompare(firstTitle);
+    });
+
+    cardsInGrid.forEach(function (gameCard) {
+      gameGrid.append(gameCard);
+    });
   });
 }
 
@@ -139,8 +198,13 @@ updateActiveCategoryButton(categoryFilter.value);
 searchForm.addEventListener("reset", function () {
   searchResult.textContent = "";
   updateActiveCategoryButton("");
+  sortGameCards("default");
 
   gameCards.forEach(function(gameCard){
     gameCard.hidden = false;
   });
+});
+
+sortGamesSelect.addEventListener("change", function () {
+  sortGameCards(sortGamesSelect.value);
 });
