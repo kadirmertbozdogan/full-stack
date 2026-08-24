@@ -54,8 +54,21 @@
         </div>
 
         <div class="checkbox-field">
-          <input type="checkbox" id="free-to-play" name="free" value="yes" />
+          <input
+            type="checkbox"
+            id="free-to-play"
+            name="free"
+            value="yes"
+          >
           <label for="free-to-play">Free to Play</label>
+
+          <input
+            type="checkbox"
+            id="favorites-only"
+            name="favorites"
+            value="yes"
+          >
+          <label for="favorites-only">Favorites Only</label>
         </div>
       </form>
       <p id="search-result" class="search-result" aria-live="polite"></p>
@@ -77,6 +90,10 @@
           <article class="stats-card">
             <h3 id="free-percentage">0%</h3>
             <p>Free to Play</p>
+          </article>
+          <article class="stats-card">
+            <h3 id="favorite-count">0</h3>
+            <p>Favorites</p>
           </article>
         </div>
       </section>

@@ -10,6 +10,83 @@ const freePercentage = document.querySelector("#free-percentage");
 const categoryButtons = document.querySelectorAll(".category-button");
 const sortGamesSelect = document.querySelector("#sort-games");
 const gameGrids = document.querySelectorAll(".game-grid");
+const savedFavoriteGames =
+  JSON.parse(localStorage.getItem("favoriteGames")) || [];
+const favoriteCount = document.querySelector("#favorite-count");
+const favoritesOnlyCheckbox = document.querySelector("#favorites-only");
+
+const favoriteGames = new Set(savedFavoriteGames);
+
+function updateFavoriteButton(favoriteButton, isFavorite) {
+  favoriteButton.classList.toggle(
+    "is-favorite",
+    isFavorite
+  );
+
+  favoriteButton.setAttribute(
+    "aria-pressed",
+    String(isFavorite)
+  );
+
+  if (isFavorite) {
+    favoriteButton.textContent = "♥ Favorited";
+  } else {
+    favoriteButton.textContent = "♡ Favorite";
+  }
+}
+
+function updateFavoriteCount() {
+  favoriteCount.textContent = favoriteGames.size;
+}
+
+gameCards.forEach(function (gameCard) {
+  const gameTitle = gameCard
+    .querySelector("h3")
+    .textContent;
+
+  const favoriteButton =
+    document.createElement("button");
+
+  favoriteButton.type = "button";
+  favoriteButton.classList.add("favorite-button");
+
+  const isSavedFavorite =
+    favoriteGames.has(gameTitle);
+
+  updateFavoriteButton(
+    favoriteButton,
+    isSavedFavorite
+  );
+
+  favoriteButton.addEventListener("click", function () {
+    const isFavorite =
+      !favoriteGames.has(gameTitle);
+
+    if (isFavorite) {
+      favoriteGames.add(gameTitle);
+    } else {
+      favoriteGames.delete(gameTitle);
+    }
+
+    localStorage.setItem(
+      "favoriteGames",
+      JSON.stringify(Array.from(favoriteGames))
+    );
+
+    updateFavoriteCount();
+
+    updateFavoriteButton(
+      favoriteButton,
+      isFavorite
+    );
+
+    filterGames();
+  });
+
+  gameCard.append(favoriteButton);
+});
+
+updateFavoriteCount();
 
 gameGrids.forEach(function (gameGrid) {
   const cardsInGrid = gameGrid.querySelectorAll("article");
@@ -114,6 +191,7 @@ function filterGames() {
   const searchTerm = searchInput.value.trim();
   const selectedCategory = categoryFilter.value;
   const freeToPlayOnly = freeToPlayCheckbox.checked;
+  const favoritesOnly = favoritesOnlyCheckbox.checked;
 
   let normalizedSearchTerm = "";
 
@@ -125,22 +203,28 @@ function filterGames() {
 
   gameCards.forEach(function (gameCard) {
     const gameTitle = gameCard
-      .querySelector("h3")
-      .textContent.toLowerCase();
+    .querySelector("h3")
+    .textContent;
+
+  const normalizedGameTitle = gameTitle.toLowerCase();
 
       const gameCategory = gameCard.dataset.category;
 
       const isFreeToPlay = gameCard.dataset.free === "true";
 
-      const matchesSearch = gameTitle.includes(normalizedSearchTerm);
+      const matchesSearch = normalizedGameTitle.includes(normalizedSearchTerm);
 
-      const matchesCategory =
-        selectedCategory === "" || gameCategory === selectedCategory;
+      const matchesCategory = selectedCategory === "" || gameCategory === selectedCategory;
 
       const matchesFreeToPlay = !freeToPlayOnly || isFreeToPlay;
 
-    const matchesAllFilters =
-      matchesSearch && matchesCategory && matchesFreeToPlay;
+      const matchesFavorites = !favoritesOnly || favoriteGames.has(gameTitle);
+
+      const matchesAllFilters =
+      matchesSearch &&
+      matchesCategory &&
+      matchesFreeToPlay &&
+      matchesFavorites;
 
     if (matchesAllFilters) {
       visibleGameCount += 1;
@@ -157,6 +241,10 @@ function filterGames() {
 
   if (freeToPlayOnly) {
     resultMessage += " | Free to Play only";
+  }
+
+  if (favoritesOnly) {
+    resultMessage += " | Favorites only";
   }
 
   resultMessage += ` | Result: ${visibleGameCount}`;
@@ -181,6 +269,7 @@ categoryFilter.addEventListener("change", function () {
 });
 
 freeToPlayCheckbox.addEventListener("change", filterGames);
+favoritesOnlyCheckbox.addEventListener("change", filterGames);
 searchInput.addEventListener("input", filterGames);
 
 categoryButtons.forEach(function (categoryButton) {

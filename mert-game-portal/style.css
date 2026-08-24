@@ -389,6 +389,39 @@ section > p {
   }
 }
 
+.favorite-button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 8px;
+  background-color: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.favorite-button:hover {
+  border-color: var(--color-primary-light);
+  color: var(--color-primary-light);
+}
+
+.favorite-button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.favorite-button.is-favorite {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
 @media (max-width: 600px) {
   header {
     padding: 20px;
