@@ -240,6 +240,53 @@
       <p>© 2026 Mert Game Portal</p>
     </footer>
 
+    <dialog
+  id="game-details-dialog"
+  class="game-dialog"
+  aria-labelledby="game-dialog-title"
+  aria-describedby="game-dialog-description"
+>
+  <div class="game-dialog-content">
+    <button
+      type="button"
+      id="close-game-dialog"
+      class="dialog-close"
+      aria-label="Close game details"
+    >
+      ×
+    </button>
+
+  <img
+    id="game-dialog-image"
+    class="dialog-image"
+    src=""
+    alt=""
+  >
+
+    <p class="dialog-label">Game Details</p>
+
+    <h2 id="game-dialog-title">
+      Game Title
+    </h2>
+
+    <p id="game-dialog-description">
+      Game description
+    </p>
+
+    <dl class="game-meta">
+      <div>
+        <dt>Category</dt>
+        <dd id="game-dialog-category">-</dd>
+      </div>
+
+      <div>
+        <dt>Availability</dt>
+        <dd id="game-dialog-availability">-</dd>
+      </div>
+    </dl>
+  </div>
+</dialog>
+
     <script src="script.js"></script>
   </body>
 </html>

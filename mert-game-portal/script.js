@@ -14,6 +14,26 @@ const savedFavoriteGames =
   JSON.parse(localStorage.getItem("favoriteGames")) || [];
 const favoriteCount = document.querySelector("#favorite-count");
 const favoritesOnlyCheckbox = document.querySelector("#favorites-only");
+const gameDetailsDialog =
+  document.querySelector("#game-details-dialog");
+
+const closeGameDialogButton =
+  document.querySelector("#close-game-dialog");
+
+const gameDialogTitle =
+  document.querySelector("#game-dialog-title");
+
+const gameDialogDescription =
+  document.querySelector("#game-dialog-description");
+
+const gameDialogCategory =
+  document.querySelector("#game-dialog-category");
+
+const gameDialogAvailability =
+  document.querySelector("#game-dialog-availability");
+
+const gameDialogImage =
+  document.querySelector("#game-dialog-image");
 
 const favoriteGames = new Set(savedFavoriteGames);
 
@@ -44,11 +64,37 @@ gameCards.forEach(function (gameCard) {
     .querySelector("h3")
     .textContent;
 
+  const gameDescription = gameCard
+    .querySelector("p")
+    .textContent;
+
+  const gameCategory =
+    gameCard.dataset.category;
+
+  const isFreeToPlay =
+    gameCard.dataset.free === "true";
+
+  const gameImage =
+    gameCard.querySelector("img");
+
+  const gameImageSource =
+    gameImage.src;
+
+  const gameImageAlt =
+    gameImage.alt;
+
   const favoriteButton =
     document.createElement("button");
 
   favoriteButton.type = "button";
   favoriteButton.classList.add("favorite-button");
+
+  const detailsButton =
+  document.createElement("button");
+
+  detailsButton.type = "button";
+  detailsButton.classList.add("details-button");
+  detailsButton.textContent = "View Details";
 
   const isSavedFavorite =
     favoriteGames.has(gameTitle);
@@ -83,6 +129,39 @@ gameCards.forEach(function (gameCard) {
     filterGames();
   });
 
+
+  detailsButton.addEventListener("click", function () {
+    gameDialogTitle.textContent =
+      gameTitle;
+
+    gameDialogDescription.textContent =
+      gameDescription;
+
+    const formattedCategory =
+      gameCategory.charAt(0).toUpperCase() +
+      gameCategory.slice(1);
+
+    gameDialogCategory.textContent =
+      formattedCategory;
+
+    if (isFreeToPlay) {
+      gameDialogAvailability.textContent =
+        "Free to Play";
+    } else {
+      gameDialogAvailability.textContent =
+        "Paid";
+    }
+
+    gameDialogImage.src =
+      gameImageSource;
+
+    gameDialogImage.alt =
+      gameImageAlt;
+
+    gameDetailsDialog.showModal();
+  });
+
+  gameCard.append(detailsButton);
   gameCard.append(favoriteButton);
 });
 
@@ -220,6 +299,15 @@ function filterGames() {
 
       const matchesFavorites = !favoritesOnly || favoriteGames.has(gameTitle);
 
+      const gameImage =
+        gameCard.querySelector("img");
+
+      const gameImageSource =
+        gameImage.src;
+
+      const gameImageAlt =
+        gameImage.alt;
+
       const matchesAllFilters =
       matchesSearch &&
       matchesCategory &&
@@ -297,3 +385,19 @@ searchForm.addEventListener("reset", function () {
 sortGamesSelect.addEventListener("change", function () {
   sortGameCards(sortGamesSelect.value);
 });
+
+closeGameDialogButton.addEventListener(
+  "click",
+  function () {
+    gameDetailsDialog.close();
+  }
+);
+
+gameDetailsDialog.addEventListener(
+  "click",
+  function (event) {
+    if (event.target === gameDetailsDialog) {
+      gameDetailsDialog.close();
+    }
+  }
+);

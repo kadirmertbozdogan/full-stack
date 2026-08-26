@@ -422,6 +422,130 @@ section > p {
   color: #ffffff;
 }
 
+.details-button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 8px;
+  background-color: var(--color-border-strong);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.details-button:hover {
+  border-color: var(--color-primary-hover);
+  background-color: var(--color-primary-hover);
+}
+
+.details-button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.game-dialog {
+  width: min(90%, 520px);
+  padding: 0;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 16px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.dialog-image {
+  width: 100%;
+  aspect-ratio: 5 / 3;
+  display: block;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.game-dialog::backdrop {
+  background-color: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.game-dialog-content {
+  position: relative;
+  padding: 32px;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.dialog-close:hover {
+  border-color: var(--color-primary-light);
+  color: var(--color-primary-light);
+}
+
+.dialog-close:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.dialog-label {
+  margin: 0 0 8px;
+  color: var(--color-primary-light);
+  font-weight: bold;
+}
+
+.game-dialog h2 {
+  margin: 0 48px 12px 0;
+}
+
+#game-dialog-description {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.game-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0 0;
+}
+
+.game-meta div {
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-background);
+}
+
+.game-meta dt {
+  margin-bottom: 6px;
+  color: var(--color-text-subtle);
+  font-size: 14px;
+}
+
+.game-meta dd {
+  margin: 0;
+  font-weight: bold;
+}
+
 @media (max-width: 600px) {
   header {
     padding: 20px;
@@ -453,5 +577,9 @@ section > p {
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
+  }
+
+  .game-meta {
+    grid-template-columns: 1fr;
   }
 }
