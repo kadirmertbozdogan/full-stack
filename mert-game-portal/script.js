@@ -35,7 +35,32 @@ const gameDialogAvailability =
 const gameDialogImage =
   document.querySelector("#game-dialog-image");
 
-const favoriteGames = new Set(savedFavoriteGames);
+const themeToggleButton =
+  document.querySelector("#theme-toggle");
+
+const pageRoot =
+  document.documentElement;
+
+const savedTheme =
+  localStorage.getItem("preferredTheme");
+
+if (savedTheme === "light") {
+  pageRoot.dataset.theme = "light";
+
+  themeToggleButton.setAttribute(
+    "aria-pressed",
+    "true"
+  );
+} else {
+  pageRoot.removeAttribute("data-theme");
+
+  themeToggleButton.setAttribute(
+    "aria-pressed",
+    "false"
+  );
+}
+
+  const favoriteGames = new Set(savedFavoriteGames);
 
 function updateFavoriteButton(favoriteButton, isFavorite) {
   favoriteButton.classList.toggle(
@@ -399,5 +424,31 @@ gameDetailsDialog.addEventListener(
     if (event.target === gameDetailsDialog) {
       gameDetailsDialog.close();
     }
+  }
+);
+
+themeToggleButton.addEventListener(
+  "click",
+  function () {
+    const isLightTheme =
+      pageRoot.dataset.theme === "light";
+
+    if (isLightTheme) {
+      pageRoot.removeAttribute("data-theme");
+    } else {
+      pageRoot.dataset.theme = "light";
+    }
+
+    const lightThemeIsActive =
+      pageRoot.dataset.theme === "light";
+
+    themeToggleButton.setAttribute(
+      "aria-pressed",
+      String(lightThemeIsActive)
+    );
+    localStorage.setItem(
+      "preferredTheme",
+      lightThemeIsActive ? "light" : "dark"
+    );
   }
 );
