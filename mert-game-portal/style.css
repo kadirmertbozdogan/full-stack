@@ -679,6 +679,36 @@ section > p {
   font-weight: bold;
 }
 
+.toast-message {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  max-width: min(360px, calc(100% - 40px));
+  padding: 14px 18px;
+  border: 1px solid var(--color-border-strong);
+  border-left: 5px solid var(--color-primary-light);
+  border-radius: 10px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  font-weight: bold;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition:
+    opacity 0.25s,
+    visibility 0.25s,
+    transform 0.25s;
+}
+
+.toast-message.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
 @media (max-width: 600px) {
   header {
     padding: 20px;
@@ -723,5 +753,12 @@ section > p {
 
   .clear-recent-button {
     width: 100%;
+  }
+
+  .toast-message {
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    max-width: none;
   }
 }

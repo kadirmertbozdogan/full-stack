@@ -94,6 +94,12 @@ let recentlyViewedGames =
 const savedTheme =
   localStorage.getItem("preferredTheme");
 
+const toastMessage =
+  document.querySelector("#toast-message");
+
+let toastTimeoutId;
+let toastUpdateTimeoutId;
+
 if (savedTheme === "light") {
   pageRoot.dataset.theme = "light";
 
@@ -131,6 +137,46 @@ function updateFavoriteButton(
     favoriteButton.textContent =
       "♡ Favorite";
   }
+}
+
+function showToast(message) {
+  clearTimeout(toastTimeoutId);
+  clearTimeout(toastUpdateTimeoutId);
+
+  const isAlreadyVisible =
+    toastMessage.classList.contains(
+      "is-visible"
+    );
+
+  if (isAlreadyVisible) {
+    toastMessage.classList.remove(
+      "is-visible"
+    );
+  }
+
+  const updateDelay =
+    isAlreadyVisible ? 250 : 0;
+
+  toastUpdateTimeoutId = setTimeout(
+    function () {
+      toastMessage.textContent =
+        message;
+
+      toastMessage.classList.add(
+        "is-visible"
+      );
+
+      toastTimeoutId = setTimeout(
+        function () {
+          toastMessage.classList.remove(
+            "is-visible"
+          );
+        },
+        2500
+      );
+    },
+    updateDelay
+  );
 }
 
 function updateFavoriteCount() {
@@ -272,6 +318,8 @@ gameCards.forEach(function (gameCard) {
     isSavedFavorite
   );
 
+
+
   favoriteButton.addEventListener(
     "click",
     function () {
@@ -297,6 +345,13 @@ gameCards.forEach(function (gameCard) {
         favoriteButton,
         isFavorite
       );
+
+      const favoriteMessage =
+        isFavorite
+          ? `${gameTitle} added to favorites.`
+          : `${gameTitle} removed from favorites.`;
+
+      showToast(favoriteMessage);
 
       filterGames();
     }
@@ -723,6 +778,13 @@ themeToggleButton.addEventListener(
         ? "light"
         : "dark"
     );
+
+  const themeMessage =
+    lightThemeIsActive
+      ? "Light theme activated."
+      : "Dark theme activated.";
+
+  showToast(themeMessage);
   }
 );
 
@@ -736,6 +798,10 @@ clearRecentGamesButton.addEventListener(
     );
 
     renderRecentlyViewedGames();
+
+    showToast(
+      "Recently viewed history cleared."
+    );
   }
 );
 
