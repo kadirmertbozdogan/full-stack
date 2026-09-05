@@ -308,6 +308,53 @@ footer {
   margin: 0;
 }
 
+.empty-state {
+  margin-bottom: 48px;
+  padding: 48px 24px;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: 16px;
+  background-color: var(--color-surface);
+  text-align: center;
+}
+
+.empty-state-icon {
+  margin: 0 0 12px;
+  font-size: 48px;
+}
+
+.empty-state h2 {
+  margin: 0 0 8px;
+}
+
+.empty-state > p:not(.empty-state-icon) {
+  margin: 0 0 20px;
+  color: var(--color-text-muted);
+}
+
+.empty-state-button {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 8px;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
+}
+
+.empty-state-button:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+}
+
+.empty-state-button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}
+
 .clear-recent-button {
   padding: 8px 12px;
   border: 1px solid var(--color-border-strong);

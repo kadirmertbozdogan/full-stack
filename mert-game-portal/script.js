@@ -97,6 +97,12 @@ const savedTheme =
 const toastMessage =
   document.querySelector("#toast-message");
 
+const emptyState =
+  document.querySelector("#empty-state");
+
+const resetEmptyStateButton =
+  document.querySelector("#reset-empty-state");
+
 let toastTimeoutId;
 let toastUpdateTimeoutId;
 
@@ -546,6 +552,25 @@ function sortGameCards(sortOrder) {
   });
 }
 
+function updateGameSections() {
+  gameGrids.forEach(function (gameGrid) {
+    const gameSection =
+      gameGrid.closest("section");
+
+    const cardsInGrid = Array.from(
+      gameGrid.querySelectorAll("article")
+    );
+
+    const hasVisibleGame =
+      cardsInGrid.some(function (gameCard) {
+        return !gameCard.hidden;
+      });
+
+    gameSection.hidden =
+      !hasVisibleGame;
+  });
+}
+
 function filterGames() {
   const searchTerm =
     searchInput.value.trim();
@@ -611,6 +636,11 @@ function filterGames() {
     gameCard.hidden =
       !matchesAllFilters;
   });
+
+  emptyState.hidden =
+  visibleGameCount !== 0;
+
+  updateGameSections();
 
   let resultMessage =
     `Searching for: ${searchTerm}`;
@@ -704,22 +734,9 @@ updateActiveCategoryButton(
   categoryFilter.value
 );
 
-searchForm.addEventListener(
-  "reset",
-  function () {
-    searchResult.textContent = "";
 
-    updateActiveCategoryButton("");
 
-    sortGameCards("default");
-
-    gameCards.forEach(
-      function (gameCard) {
-        gameCard.hidden = false;
-      }
-    );
-  }
-);
+updateGameSections();
 
 sortGamesSelect.addEventListener(
   "change",
@@ -803,6 +820,37 @@ clearRecentGamesButton.addEventListener(
       "Recently viewed history cleared."
     );
   }
+);
+
+function resetFilters() {
+  searchInput.value = "";
+  categoryFilter.value = "";
+  freeToPlayCheckbox.checked = false;
+  favoritesOnlyCheckbox.checked = false;
+  sortGamesSelect.value = "default";
+
+  searchResult.textContent = "";
+
+  updateActiveCategoryButton("");
+  sortGameCards("default");
+
+  gameCards.forEach(function (gameCard) {
+    gameCard.hidden = false;
+  });
+
+  emptyState.hidden = true;
+
+  updateGameSections();
+}
+
+searchForm.addEventListener("reset", function (event) {
+  event.preventDefault();
+  resetFilters();
+});
+
+resetEmptyStateButton.addEventListener(
+  "click",
+  resetFilters
 );
 
 renderRecentlyViewedGames();
