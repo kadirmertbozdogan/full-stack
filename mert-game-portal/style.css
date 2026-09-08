@@ -520,6 +520,34 @@ section > p {
   box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
 }
 
+.copy-filter-link {
+  display: block;
+  margin: 16px 0 0 auto;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 8px;
+  background-color: transparent;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    transform 0.2s;
+}
+
+.copy-filter-link:hover {
+  border-color: var(--color-primary-light);
+  color: var(--color-primary-light);
+  transform: translateY(-2px);
+}
+
+.copy-filter-link:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}
+
 .checkbox-field {
   display: flex;
   align-items: center;
@@ -841,5 +869,9 @@ section > p {
     grid-column: 1;
     margin-top: 0;
     padding: 16px;
+  }
+
+  .copy-filter-link {
+    width: 100%;
   }
 }

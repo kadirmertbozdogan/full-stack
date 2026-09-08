@@ -103,6 +103,11 @@ const emptyState =
 const resetEmptyStateButton =
   document.querySelector("#reset-empty-state");
 
+const copyFilterLinkButton =
+  document.querySelector(
+    "#copy-filter-link"
+  );
+
 let toastTimeoutId;
 let toastUpdateTimeoutId;
 
@@ -571,6 +576,146 @@ function updateGameSections() {
   });
 }
 
+function updateUrlFromFilters() {
+  const urlParameters =
+    new URLSearchParams();
+
+  const searchTerm =
+    searchInput.value.trim();
+
+  const selectedCategory =
+    categoryFilter.value;
+
+  const freeToPlayOnly =
+    freeToPlayCheckbox.checked;
+
+  const favoritesOnly =
+    favoritesOnlyCheckbox.checked;
+
+  const sortOrder =
+    sortGamesSelect.value;
+
+  if (searchTerm.length >= 2) {
+    urlParameters.set(
+      "search",
+      searchTerm
+    );
+  }
+
+  if (selectedCategory !== "") {
+    urlParameters.set(
+      "category",
+      selectedCategory
+    );
+  }
+
+  if (freeToPlayOnly) {
+    urlParameters.set(
+      "free",
+      "true"
+    );
+  }
+
+  if (favoritesOnly) {
+    urlParameters.set(
+      "favorites",
+      "true"
+    );
+  }
+
+  if (sortOrder !== "default") {
+    urlParameters.set(
+      "sort",
+      sortOrder
+    );
+  }
+
+  const queryString =
+    urlParameters.toString();
+
+  let newUrl =
+    window.location.pathname;
+
+  if (queryString !== "") {
+    newUrl += `?${queryString}`;
+  }
+
+  window.history.replaceState(
+    null,
+    "",
+    newUrl
+  );
+}
+
+function loadFiltersFromUrl() {
+  const urlParameters =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const savedSearch =
+    urlParameters.get("search");
+
+  const savedCategory =
+    urlParameters.get("category");
+
+  const savedSort =
+    urlParameters.get("sort");
+
+  const validCategories = [
+    "action",
+    "racing",
+    "puzzle"
+  ];
+
+  const validSortOrders = [
+    "a-z",
+    "z-a"
+  ];
+
+  if (
+    savedSearch !== null &&
+    savedSearch.length >= 2
+  ) {
+    searchInput.value =
+      savedSearch;
+  }
+
+  if (
+    validCategories.includes(
+      savedCategory
+    )
+  ) {
+    categoryFilter.value =
+      savedCategory;
+  }
+
+  freeToPlayCheckbox.checked =
+    urlParameters.get("free") === "true";
+
+  favoritesOnlyCheckbox.checked =
+    urlParameters.get("favorites") === "true";
+
+  if (
+    validSortOrders.includes(
+      savedSort
+    )
+  ) {
+    sortGamesSelect.value =
+      savedSort;
+  }
+
+  updateActiveCategoryButton(
+    categoryFilter.value
+  );
+
+  sortGameCards(
+    sortGamesSelect.value
+  );
+
+  filterGames();
+}
+
 function filterGames() {
   const searchTerm =
     searchInput.value.trim();
@@ -673,6 +818,8 @@ function filterGames() {
 
   searchResult.textContent =
     resultMessage;
+
+  updateUrlFromFilters();
 }
 
 searchForm.addEventListener(
@@ -744,6 +891,8 @@ sortGamesSelect.addEventListener(
     sortGameCards(
       sortGamesSelect.value
     );
+
+    updateUrlFromFilters();
   }
 );
 
@@ -805,6 +954,30 @@ themeToggleButton.addEventListener(
   }
 );
 
+copyFilterLinkButton.addEventListener(
+  "click",
+  async function () {
+    try {
+      await navigator.clipboard.writeText(
+        window.location.href
+      );
+
+      showToast(
+        "Filter link copied."
+      );
+    } catch (error) {
+      showToast(
+        "Could not copy filter link."
+      );
+
+      console.error(
+        "Could not copy filter link:",
+        error
+      );
+    }
+  }
+);
+
 clearRecentGamesButton.addEventListener(
   "click",
   function () {
@@ -841,6 +1014,7 @@ function resetFilters() {
   emptyState.hidden = true;
 
   updateGameSections();
+  updateUrlFromFilters();
 }
 
 searchForm.addEventListener("reset", function (event) {
@@ -854,3 +1028,4 @@ resetEmptyStateButton.addEventListener(
 );
 
 renderRecentlyViewedGames();
+loadFiltersFromUrl();
