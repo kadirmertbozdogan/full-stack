@@ -110,6 +110,7 @@ const copyFilterLinkButton =
 
 let toastTimeoutId;
 let toastUpdateTimeoutId;
+let searchDebounceId;
 
 if (savedTheme === "light") {
   pageRoot.dataset.theme = "light";
@@ -822,10 +823,23 @@ function filterGames() {
   updateUrlFromFilters();
 }
 
+function handleSearchInput() {
+  clearTimeout(searchDebounceId);
+
+  searchDebounceId = setTimeout(
+    function () {
+      filterGames();
+    },
+    300
+  );
+}
+
 searchForm.addEventListener(
   "submit",
   function (event) {
     event.preventDefault();
+
+    clearTimeout(searchDebounceId);
     filterGames();
   }
 );
@@ -853,7 +867,7 @@ favoritesOnlyCheckbox.addEventListener(
 
 searchInput.addEventListener(
   "input",
-  filterGames
+  handleSearchInput
 );
 
 categoryButtons.forEach(
@@ -957,6 +971,9 @@ themeToggleButton.addEventListener(
 copyFilterLinkButton.addEventListener(
   "click",
   async function () {
+    clearTimeout(searchDebounceId);
+    filterGames();
+
     try {
       await navigator.clipboard.writeText(
         window.location.href
@@ -996,6 +1013,8 @@ clearRecentGamesButton.addEventListener(
 );
 
 function resetFilters() {
+  clearTimeout(searchDebounceId);
+
   searchInput.value = "";
   categoryFilter.value = "";
   freeToPlayCheckbox.checked = false;
@@ -1016,6 +1035,52 @@ function resetFilters() {
   updateGameSections();
   updateUrlFromFilters();
 }
+
+document.addEventListener(
+  "keydown",
+  function (event) {
+    const eventTarget =
+      event.target;
+
+    const userIsTyping =
+      eventTarget.tagName === "INPUT" ||
+      eventTarget.tagName === "TEXTAREA" ||
+      eventTarget.tagName === "SELECT" ||
+      eventTarget.isContentEditable;
+
+    const dialogIsOpen =
+      gameDetailsDialog.open;
+
+    if (
+      event.key === "/" &&
+      !userIsTyping &&
+      !dialogIsOpen
+    ) {
+      event.preventDefault();
+      searchInput.focus();
+      return;
+    }
+
+    if (
+      event.key === "Escape" &&
+      eventTarget === searchInput &&
+      searchInput.value !== "" &&
+      !dialogIsOpen
+    ) {
+      event.preventDefault();
+
+      clearTimeout(searchDebounceId);
+
+      searchInput.value = "";
+
+      filterGames();
+
+      showToast(
+        "Search cleared."
+      );
+    }
+  }
+);
 
 searchForm.addEventListener("reset", function (event) {
   event.preventDefault();
