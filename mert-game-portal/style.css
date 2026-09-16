@@ -822,6 +822,65 @@ section > p {
   transform: translateY(0);
 }
 
+.active-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background-color: var(--color-surface);
+}
+
+.active-filters[hidden] {
+  display: none;
+}
+
+.active-filters h2 {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.active-filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.active-filter-chip {
+  padding: 6px 10px;
+  border: 1px solid var(--color-primary-light);
+  border-radius: 999px;
+  background-color: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.active-filter-chip::after {
+  content: "×";
+  margin-left: 8px;
+  color: var(--color-primary-light);
+  font-weight: bold;
+}
+
+.active-filter-chip:hover {
+  background-color: var(--color-primary-hover);
+  color: var(--color-background);
+}
+
+.active-filter-chip:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
 @media (max-width: 600px) {
   header {
     padding: 20px;
@@ -897,5 +956,14 @@ section > p {
   .search-shortcut {
     display: block;
     margin: 6px 0 0;
+  }
+
+  .active-filters {
+    align-items: flex-start;
+  }
+
+  .active-filters h2,
+  .active-filter-list {
+    width: 100%;
   }
 }

@@ -108,6 +108,12 @@ const copyFilterLinkButton =
     "#copy-filter-link"
   );
 
+const activeFiltersSection =
+  document.querySelector("#active-filters");
+
+const activeFilterList =
+  document.querySelector("#active-filter-list");
+
 let toastTimeoutId;
 let toastUpdateTimeoutId;
 let searchDebounceId;
@@ -820,7 +826,98 @@ function filterGames() {
   searchResult.textContent =
     resultMessage;
 
+  renderActiveFilters();
   updateUrlFromFilters();
+}
+
+function createActiveFilterChip(
+  label,
+  filterName
+) {
+  const filterButton =
+    document.createElement("button");
+
+  filterButton.type = "button";
+
+  filterButton.classList.add(
+    "active-filter-chip"
+  );
+
+  filterButton.dataset.filter =
+    filterName;
+
+  filterButton.textContent =
+    label;
+
+  filterButton.setAttribute(
+    "aria-label",
+    `Remove ${label}`
+  );
+
+  activeFilterList.append(
+    filterButton
+  );
+}
+
+function renderActiveFilters() {
+  activeFilterList.replaceChildren();
+
+  const searchTerm =
+    searchInput.value.trim();
+
+  const selectedCategory =
+    categoryFilter.value;
+
+  const sortOrder =
+    sortGamesSelect.value;
+
+  if (searchTerm.length >= 2) {
+    createActiveFilterChip(
+      `Search: ${searchTerm}`,
+      "search"
+    );
+  }
+
+  if (selectedCategory !== "") {
+    const categoryName =
+      categoryFilter
+        .selectedOptions[0]
+        .textContent;
+
+    createActiveFilterChip(
+      `Category: ${categoryName}`,
+      "category"
+    );
+  }
+
+  if (freeToPlayCheckbox.checked) {
+    createActiveFilterChip(
+      "Free to Play",
+      "free"
+    );
+  }
+
+  if (favoritesOnlyCheckbox.checked) {
+    createActiveFilterChip(
+      "Favorites Only",
+      "favorites"
+    );
+  }
+
+  if (sortOrder !== "default") {
+    const sortName =
+      sortGamesSelect
+        .selectedOptions[0]
+        .textContent;
+
+    createActiveFilterChip(
+      `Sort: ${sortName}`,
+      "sort"
+    );
+  }
+
+  activeFiltersSection.hidden =
+    activeFilterList.childElementCount === 0;
 }
 
 function handleSearchInput() {
@@ -995,6 +1092,82 @@ copyFilterLinkButton.addEventListener(
   }
 );
 
+activeFilterList.addEventListener(
+  "click",
+  function (event) {
+    const filterButton =
+      event.target.closest(
+        ".active-filter-chip"
+      );
+
+    if (filterButton === null) {
+      return;
+    }
+
+    const filterButtonsBefore =
+      Array.from(
+        activeFilterList.querySelectorAll(
+          ".active-filter-chip"
+        )
+      );
+
+    const removedFilterIndex =
+      filterButtonsBefore.indexOf(
+        filterButton
+      );
+
+    const filterName =
+      filterButton.dataset.filter;
+
+    const removedFilterLabel =
+      filterButton.textContent;
+
+    if (filterName === "search") {
+      clearTimeout(searchDebounceId);
+      searchInput.value = "";
+    } else if (filterName === "category") {
+      categoryFilter.value = "";
+
+      updateActiveCategoryButton("");
+    } else if (filterName === "free") {
+      freeToPlayCheckbox.checked = false;
+    } else if (filterName === "favorites") {
+      favoritesOnlyCheckbox.checked = false;
+    } else if (filterName === "sort") {
+      sortGamesSelect.value = "default";
+
+      sortGameCards("default");
+    }
+
+    filterGames();
+
+    const filterButtonsAfter =
+      Array.from(
+        activeFilterList.querySelectorAll(
+          ".active-filter-chip"
+        )
+      );
+
+    const nextFilterButton =
+      filterButtonsAfter[
+        removedFilterIndex
+      ] ||
+      filterButtonsAfter[
+        removedFilterIndex - 1
+      ];
+
+    if (nextFilterButton) {
+      nextFilterButton.focus();
+    } else {
+      searchInput.focus();
+    }
+
+    showToast(
+      `${removedFilterLabel} removed.`
+    );
+  }
+);
+
 clearRecentGamesButton.addEventListener(
   "click",
   function () {
@@ -1033,6 +1206,7 @@ function resetFilters() {
   emptyState.hidden = true;
 
   updateGameSections();
+  renderActiveFilters();
   updateUrlFromFilters();
 }
 
