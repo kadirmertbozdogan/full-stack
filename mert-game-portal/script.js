@@ -583,24 +583,38 @@ function updateGameSections() {
   });
 }
 
-function updateUrlFromFilters() {
+function getFilterState() {
+  return Object.freeze({
+    searchTerm:
+      searchInput.value.trim(),
+
+    selectedCategory:
+      categoryFilter.value,
+
+    freeToPlayOnly:
+      freeToPlayCheckbox.checked,
+
+    favoritesOnly:
+      favoritesOnlyCheckbox.checked,
+
+    sortOrder:
+      sortGamesSelect.value
+  });
+}
+
+function updateUrlFromFilters(
+  filterState = getFilterState()
+) {
   const urlParameters =
     new URLSearchParams();
 
-  const searchTerm =
-    searchInput.value.trim();
-
-  const selectedCategory =
-    categoryFilter.value;
-
-  const freeToPlayOnly =
-    freeToPlayCheckbox.checked;
-
-  const favoritesOnly =
-    favoritesOnlyCheckbox.checked;
-
-  const sortOrder =
-    sortGamesSelect.value;
+  const {
+    searchTerm,
+    selectedCategory,
+    freeToPlayOnly,
+    favoritesOnly,
+    sortOrder
+  } = filterState;
 
   if (searchTerm.length >= 2) {
     urlParameters.set(
@@ -724,17 +738,15 @@ function loadFiltersFromUrl() {
 }
 
 function filterGames() {
-  const searchTerm =
-    searchInput.value.trim();
+  const filterState =
+  getFilterState();
 
-  const selectedCategory =
-    categoryFilter.value;
-
-  const freeToPlayOnly =
-    freeToPlayCheckbox.checked;
-
-  const favoritesOnly =
-    favoritesOnlyCheckbox.checked;
+  const {
+    searchTerm,
+    selectedCategory,
+    freeToPlayOnly,
+    favoritesOnly
+} = filterState;
 
   let normalizedSearchTerm = "";
 
@@ -826,8 +838,8 @@ function filterGames() {
   searchResult.textContent =
     resultMessage;
 
-  renderActiveFilters();
-  updateUrlFromFilters();
+  renderActiveFilters(filterState);
+  updateUrlFromFilters(filterState);
 }
 
 function createActiveFilterChip(
@@ -859,17 +871,18 @@ function createActiveFilterChip(
   );
 }
 
-function renderActiveFilters() {
+function renderActiveFilters(
+  filterState = getFilterState()
+) {
   activeFilterList.replaceChildren();
 
-  const searchTerm =
-    searchInput.value.trim();
-
-  const selectedCategory =
-    categoryFilter.value;
-
-  const sortOrder =
-    sortGamesSelect.value;
+  const {
+    searchTerm,
+    selectedCategory,
+    freeToPlayOnly,
+    favoritesOnly,
+    sortOrder
+  } = filterState;
 
   if (searchTerm.length >= 2) {
     createActiveFilterChip(
@@ -890,14 +903,14 @@ function renderActiveFilters() {
     );
   }
 
-  if (freeToPlayCheckbox.checked) {
+  if (freeToPlayOnly) {
     createActiveFilterChip(
       "Free to Play",
       "free"
     );
   }
 
-  if (favoritesOnlyCheckbox.checked) {
+if (favoritesOnly) {
     createActiveFilterChip(
       "Favorites Only",
       "favorites"
