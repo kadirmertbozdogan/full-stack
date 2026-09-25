@@ -491,6 +491,65 @@ function updateActiveCategoryButton(
   );
 }
 
+function compareGameCards(
+  firstCard,
+  secondCard,
+  sortOrder
+) {
+  if (sortOrder === "default") {
+    return (
+      Number(
+        firstCard.dataset.originalOrder
+      ) -
+      Number(
+        secondCard.dataset.originalOrder
+      )
+    );
+  }
+
+  const firstIsFeatured =
+    firstCard.classList.contains(
+      "featured"
+    );
+
+  const secondIsFeatured =
+    secondCard.classList.contains(
+      "featured"
+    );
+
+  if (
+    firstIsFeatured &&
+    !secondIsFeatured
+  ) {
+    return -1;
+  }
+
+  if (
+    !firstIsFeatured &&
+    secondIsFeatured
+  ) {
+    return 1;
+  }
+
+  const firstTitle = firstCard
+    .querySelector("h3")
+    .textContent;
+
+  const secondTitle = secondCard
+    .querySelector("h3")
+    .textContent;
+
+  if (sortOrder === "a-z") {
+    return firstTitle.localeCompare(
+      secondTitle
+    );
+  }
+
+  return secondTitle.localeCompare(
+    firstTitle
+  );
+}
+
 function sortGameCards(sortOrder) {
   gameGrids.forEach(function (gameGrid) {
     const cardsInGrid =
@@ -500,62 +559,18 @@ function sortGameCards(sortOrder) {
         )
       );
 
-    cardsInGrid.sort(
-      function (
-        firstCard,
-        secondCard
-      ) {
-        if (sortOrder === "default") {
-          return (
-            Number(
-              firstCard.dataset
-                .originalOrder
-            ) -
-            Number(
-              secondCard.dataset
-                .originalOrder
-            )
+      cardsInGrid.sort(
+        function (
+          firstCard,
+          secondCard
+        ) {
+          return compareGameCards(
+            firstCard,
+            secondCard,
+            sortOrder
           );
         }
-
-        const firstIsFeatured =
-          firstCard.classList.contains(
-            "featured"
-          );
-
-        const secondIsFeatured =
-          secondCard.classList.contains(
-            "featured"
-          );
-
-        if (firstIsFeatured) {
-          return -1;
-        }
-
-        if (secondIsFeatured) {
-          return 1;
-        }
-
-        const firstTitle = firstCard
-          .querySelector("h3")
-          .textContent;
-
-        const secondTitle = secondCard
-          .querySelector("h3")
-          .textContent;
-
-        if (sortOrder === "a-z") {
-          return firstTitle.localeCompare(
-            secondTitle
-          );
-        }
-
-        return secondTitle.localeCompare(
-          firstTitle
-        );
-      }
-    );
-
+      );
     cardsInGrid.forEach(
       function (gameCard) {
         gameGrid.append(gameCard);
@@ -737,6 +752,76 @@ function loadFiltersFromUrl() {
   filterGames();
 }
 
+function getGameData(gameCard) {
+  const gameTitle = gameCard
+    .querySelector("h3")
+    .textContent;
+
+  return Object.freeze({
+    gameTitle,
+
+    normalizedGameTitle:
+      gameTitle.toLowerCase(),
+
+    gameCategory:
+      gameCard.dataset.category,
+
+    isFreeToPlay:
+      gameCard.dataset.free === "true",
+
+      isFavorite:
+      favoriteGames.has(gameTitle)
+  });
+}
+
+function gameMatchesFilters(
+  gameData,
+  filterState
+) {
+  const {
+    normalizedGameTitle,
+    gameCategory,
+    isFreeToPlay,
+    isFavorite
+  } = gameData;
+
+  const {
+    searchTerm,
+    selectedCategory,
+    freeToPlayOnly,
+    favoritesOnly
+  } = filterState;
+
+  let normalizedSearchTerm = "";
+
+  if (searchTerm.length >= 2) {
+    normalizedSearchTerm =
+      searchTerm.toLowerCase();
+  }
+
+  const matchesSearch =
+    normalizedGameTitle.includes(
+      normalizedSearchTerm
+    );
+
+  const matchesCategory =
+    selectedCategory === "" ||
+    gameCategory === selectedCategory;
+
+  const matchesFreeToPlay =
+    !freeToPlayOnly || isFreeToPlay;
+
+  const matchesFavorites =
+    !favoritesOnly || isFavorite;
+
+  return (
+    matchesSearch &&
+    matchesCategory &&
+    matchesFreeToPlay &&
+    matchesFavorites
+  );
+}
+
 function filterGames() {
   const filterState =
   getFilterState();
@@ -758,40 +843,15 @@ function filterGames() {
   let visibleGameCount = 0;
 
   gameCards.forEach(function (gameCard) {
-    const gameTitle = gameCard
-      .querySelector("h3")
-      .textContent;
 
-    const normalizedGameTitle =
-      gameTitle.toLowerCase();
+  const gameData =
+    getGameData(gameCard);
 
-    const gameCategory =
-      gameCard.dataset.category;
-
-    const isFreeToPlay =
-      gameCard.dataset.free === "true";
-
-    const matchesSearch =
-      normalizedGameTitle.includes(
-        normalizedSearchTerm
-      );
-
-    const matchesCategory =
-      selectedCategory === "" ||
-      gameCategory === selectedCategory;
-
-    const matchesFreeToPlay =
-      !freeToPlayOnly || isFreeToPlay;
-
-    const matchesFavorites =
-      !favoritesOnly ||
-      favoriteGames.has(gameTitle);
-
-    const matchesAllFilters =
-      matchesSearch &&
-      matchesCategory &&
-      matchesFreeToPlay &&
-      matchesFavorites;
+  const matchesAllFilters =
+    gameMatchesFilters(
+      gameData,
+      filterState
+    );
 
     if (matchesAllFilters) {
       visibleGameCount += 1;
